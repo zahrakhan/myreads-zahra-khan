@@ -13,15 +13,19 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    books: []
+    books: [],
+    shelfTypes: [
+      { type: 'currentlyReading', label: 'Currently Reading',  },
+      { type: 'wantToRead', label: 'Want to Read' },
+      { type: 'read', label: 'Read' },
+      { type: 'none', label: 'None' }
+    ]
   }
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
-      console.log(books)
     })
   }
-
   navigateToSearch = () => {
     this.setState({ showSearchPage: true })
   }
@@ -34,7 +38,7 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ?
           <SearchBooks onClickBack={this.navigateToShelf} /> :
-          <ListBooks books={this.state.books} onClickSearch={this.navigateToSearch} />
+          <ListBooks books={this.state.books} shelfTypes={this.state.shelfTypes} onClickSearch={this.navigateToSearch} />
         }
       </div>
     )
