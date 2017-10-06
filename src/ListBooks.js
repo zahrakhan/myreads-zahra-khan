@@ -7,7 +7,11 @@ class ListBooks extends Component {
         const bookshelves = shelfTypes
             .filter(shelf => shelf.type !== 'none')
             .map(shelf => (
-                <BookShelf key={shelf.type} title={shelf.label} books={books.filter(book => book.shelf === shelf.type)} />
+                <BookShelf
+                    key={shelf.type}
+                    title={shelf.label}
+                    books={books.filter(book => book.shelf === shelf.type)}
+                    shelfTypes={shelfTypes} />
             ))
 
         return (
