@@ -34,7 +34,7 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ?
           <SearchBooks onClickBack={this.navigateToShelf} /> :
-          <ListBooks onClickSearch={this.navigateToSearch} />
+          <ListBooks books={this.state.books} onClickSearch={this.navigateToSearch} />
         }
       </div>
     )
