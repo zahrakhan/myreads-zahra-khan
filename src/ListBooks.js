@@ -2,7 +2,15 @@ import React, { Component } from 'react'
 
 class ListBooks extends Component {
     render() {
-        console.log('books', this.props.books)
+        const { books, shelfTypes } = this.props
+
+        // Build bookshelves based on shelf types
+        const bookshelves = shelfTypes.map((shelfType, index) => {
+            return { title: shelfType.label, books: books.filter((book) => book.shelf === shelfType.type) }
+        })
+
+        console.log('bookselves', bookshelves)
+
         return (
             <div className="list-books">
                 <div className="list-books-title">
