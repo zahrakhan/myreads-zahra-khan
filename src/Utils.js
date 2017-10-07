@@ -1,6 +1,6 @@
 function groupBy(items, getItemGroupOnValue) {
     const groups = {}
-    for (let item of items){
+    for (let item of items) {
         const group = getItemGroupOnValue(item)
         groups[group] = groups[group] || []
         groups[group].push(item)

@@ -1,7 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks'
-import { groupItems } from './Utils'
+import {groupItems} from './Utils'
 
 class MyReads extends React.Component {
     state = {
@@ -19,23 +19,21 @@ class MyReads extends React.Component {
     }
 
     loadMyReads = () => {
-        BooksAPI.getAll()
+        BooksAPI
+            .getAll()
             .then(books => groupItems(books, 'shelf'))
-            .then(shelves => this.setState({ shelves }))
+            .then(shelves => this.setState({shelves}))
 
     }
 
     handleChangeInBookShelf = (book, shelf) => {
         BooksAPI.update(book, shelf)
-          // .then(books => console.log('updated', books))
-          .then(() => this.loadMyReads())
-      }
+        // .then(books => console.log('updated', books))
+            .then(() => this.loadMyReads())
+    }
 
     render() {
-        return (
-            <ListBooks {...this.state}
-                onChangeBookShelf={this.handleChangeInBookShelf} />
-        )
+        return (<ListBooks {...this.state} onChangeBookShelf={this.handleChangeInBookShelf}/>)
     }
 }
 export default MyReads
