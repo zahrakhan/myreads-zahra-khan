@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import BookShelfChanger from './BookShelfChanger'
 
 const Book = ({
@@ -20,11 +21,26 @@ const Book = ({
                     options={shelfOptions}
                     onChange={onChangeBookShelf} />
             </div>
-            <div className="book-title">{title || ''}</div>
-            <div className="book-authors">
-                {authors && authors.length ? authors.join(', ') : 'Unknown Author'}
-            </div>
+            <div className="book-title">{title}</div>
+            <div className="book-authors">{authors.join(', ')}</div>
         </div>
 
     )
+
+Book.propTypes = {
+    title: PropTypes.string.isRequired,
+    authors: PropTypes.array.isRequired,
+    image: PropTypes.string.isRequired,
+    shelf: PropTypes.string.isRequired,
+    shelfOptions: PropTypes.object.isRequired,
+    onChangeBookShelf: PropTypes.func.isRequired
+}
+
+Book.defaultProps = {
+    title: '',
+    authors: ['Unknown Author'],
+    image: '',
+    shelf: 'none'
+}
+
 export default Book
