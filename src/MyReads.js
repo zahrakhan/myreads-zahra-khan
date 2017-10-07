@@ -34,7 +34,6 @@ class MyReads extends React.Component {
     render() {
         return (
             <ListBooks {...this.state}
-                onSearch={this.props.onSearch}
                 onChangeBookShelf={this.handleChangeInBookShelf} />
         )
     }
