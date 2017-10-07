@@ -2,6 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
+import { groupItems } from './Utils'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -13,18 +14,21 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    books: [],
-    shelfTypes: [
-      { type: 'currentlyReading', label: 'Currently Reading' },
-      { type: 'wantToRead', label: 'Want to Read' },
-      { type: 'read', label: 'Read' },
-      { type: 'none', label: 'None' }
-    ]
+    shelves: [],
+    shelfTypes: {
+      'currentlyReading': 'Currently Reading',
+      'wantToRead': 'Want to Read',
+      'read': 'Read',
+      'none': 'None'
+    }
   }
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({ books })
-    })
+    this.loadMyShelvedBooks()
+  }
+  loadMyShelvedBooks = () => {
+    BooksAPI.getAll()
+      .then(books => groupItems(books, 'shelf'))
+      .then(shelves => this.setState({ shelves }))
   }
   navigateToSearch = () => {
     this.setState({ showSearchPage: true })
@@ -38,7 +42,7 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ?
           <SearchBooks onClickBack={this.navigateToShelf} /> :
-          <ListBooks books={this.state.books} shelfTypes={this.state.shelfTypes} onClickSearch={this.navigateToSearch} />
+          <ListBooks {...this.state} onSearch={this.navigateToSearch} />
         }
       </div>
     )

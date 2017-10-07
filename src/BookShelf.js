@@ -10,10 +10,15 @@ class BookShelf extends Component {
                 <div className="bookshelf-books">
                     <ol className="books-grid">
                         {books && books.map(book => (
-                            <Book
-                                key={book.id}
-                                detail={book}
-                                options={shelfTypes} />
+                            <li key={`book_${book.id}`}>
+                                <Book
+                                    title={book.title}
+                                    authors={book.authors}
+                                    shelf={book.shelf}
+                                    image={book.imageLinks.smallThumbnail}
+                                    shelfOptions={shelfTypes}
+                                />
+                            </li>
                         ))}
                     </ol>
                 </div>
