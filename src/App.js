@@ -23,12 +23,17 @@ class BooksApp extends React.Component {
     }
   }
   componentDidMount() {
-    this.loadMyShelvedBooks()
+    this.loadMyBookShelves()
   }
-  loadMyShelvedBooks = () => {
+  loadMyBookShelves = () => {
     BooksAPI.getAll()
       .then(books => groupItems(books, 'shelf'))
       .then(shelves => this.setState({ shelves }))
+  }
+  handleChangeInBookShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      // .then(books => console.log('updated', books))
+      .then(() => this.loadMyBookShelves())
   }
   navigateToSearch = () => {
     this.setState({ showSearchPage: true })
@@ -42,7 +47,7 @@ class BooksApp extends React.Component {
       <div className="app">
         {this.state.showSearchPage ?
           <SearchBooks onClickBack={this.navigateToShelf} /> :
-          <ListBooks {...this.state} onSearch={this.navigateToSearch} />
+          <ListBooks {...this.state} onSearch={this.navigateToSearch} onChangeBookShelf={this.handleChangeInBookShelf} />
         }
       </div>
     )

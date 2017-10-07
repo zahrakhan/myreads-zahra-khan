@@ -3,7 +3,7 @@ import BookShelf from './BookShelf'
 
 class ListBooks extends Component {
     render() {
-        let { shelves, shelfTypes, onSearch } = this.props
+        let { shelves, shelfTypes, onSearch, onChangeBookShelf } = this.props
         return (
             <div className="list-books" >
                 <div className="list-books-title">
@@ -16,6 +16,7 @@ class ListBooks extends Component {
                             title={shelfTypes[shelf]}
                             books={shelves[shelf]}
                             shelfTypes={shelfTypes}
+                            onChangeBookShelf={onChangeBookShelf}
                         />
                     ))}
                 </div>
