@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import BookShelf from './BookShelf'
 
 const ListBooks = ({
@@ -27,5 +28,16 @@ const ListBooks = ({
             </div>
         </div>
     )
+
+ListBooks.propTypes = {
+    shelves: PropTypes.shape({
+        currentlyReading: PropTypes.arrayOf(PropTypes.object),
+        read: PropTypes.arrayOf(PropTypes.object),
+        wantToRead: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
+    shelfTypes: PropTypes.object,
+    onChangeBookShelf: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired
+}
 
 export default ListBooks
