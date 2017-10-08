@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import SearchBooksBar from './SearchBooksBar'
+import SearchBooksResults from './SearchBooksResults'
 
 class SearchBooks extends Component {
     constructor(props) {
         super(props)
         this.state = {
             query: '',
-            results: []
+            booksFound: []
         }
         this.timeout = null
     }
@@ -25,9 +26,9 @@ class SearchBooks extends Component {
             if (this.state.query) {
                 BooksAPI
                     .search(this.state.query, 20)
-                    .then(results => console.log(results))
+                    .then(booksFound => console.log(booksFound))
             }
-        }, 1000)
+        }, 500)
 
     }
     render() {
@@ -36,10 +37,7 @@ class SearchBooks extends Component {
                 <SearchBooksBar
                     query={this.state.query}
                     onChangeQuery={this.handleChangeInQuery}/>
-
-                <div className="search-books-results">
-                    <ol className="books-grid"></ol>
-                </div>
+                <SearchBooksResults books={this.state.booksFound}/>
             </div>
         )
     }
