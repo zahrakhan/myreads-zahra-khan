@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import SearchBooksBar from './SearchBooksBar'
-import SearchBooksResults from './SearchBooksResults'
 
 class SearchBooks extends Component {
     constructor(props) {
@@ -37,7 +36,10 @@ class SearchBooks extends Component {
                 <SearchBooksBar
                     query={this.state.query}
                     onChangeQuery={this.handleChangeInQuery}/>
-                <SearchBooksResults />
+
+                <div className="search-books-results">
+                    <ol className="books-grid"></ol>
+                </div>
             </div>
         )
     }
