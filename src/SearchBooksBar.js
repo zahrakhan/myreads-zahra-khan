@@ -8,6 +8,7 @@ const SearchBooksBar = ({query, onChangeQuery}) => (
         </Link>
         <div className="search-books-input-wrapper">
             <input
+                autoFocus
                 type="text"
                 value={query}
                 placeholder="Search by title or author"
