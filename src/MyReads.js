@@ -22,12 +22,14 @@ class MyReads extends React.Component {
         BooksAPI
             .getAll()
             .then(books => groupItems(books, 'shelf'))
-            .then(shelves => this.setState({shelves}))
+            .then(shelves => this.setState({
+                shelves
+            }, () => console.log(this.state.shelves)))
 
     }
 
     handleChangeInBookShelf = (book, shelf) => {
-        BooksAPI.update(book, shelf)
+        BooksAPI.update({id:book.id}, shelf)
         // .then(books => console.log('updated', books))
             .then(() => this.loadMyReads())
     }
