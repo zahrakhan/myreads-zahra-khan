@@ -1,9 +1,21 @@
 import React from 'react'
+import Book from './Book'
 
-const SearchBooksResults = ({books}) => (
+const SearchBooksResults = ({books, shelfTypes, onShelveBook}) => (
     <div className="search-books-results">
         <ol className="books-grid">
-            {/* TODO: map books */}
+        {books && books.map(book => (
+                    <li key={`book_${book.id}`}>
+                        <Book
+                            id={book.title}
+                            title={book.title}
+                            shelf={book.shelf}
+                            authors={book.authors}
+                            image={book.imageLinks.smallThumbnail}
+                            shelfOptions={shelfTypes}
+                            onChangeBookShelf={shelf => onShelveBook(book, shelf)}/>
+                    </li>
+                ))}
         </ol>
     </div>
 )

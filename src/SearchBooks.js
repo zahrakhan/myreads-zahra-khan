@@ -8,7 +8,13 @@ class SearchBooks extends Component {
         super(props)
         this.state = {
             query: '',
-            booksFound: []
+            booksFound: [],
+            shelfTypes: {
+                'currentlyReading': 'Currently Reading',
+                'wantToRead': 'Want to Read',
+                'read': 'Read',
+                'none': 'None'
+            }
         }
         this.timeout = null
     }
@@ -26,10 +32,24 @@ class SearchBooks extends Component {
             if (this.state.query) {
                 BooksAPI
                     .search(this.state.query, 20)
-                    .then(booksFound => console.log(booksFound))
+                    .then(booksFound => this.setState({
+                        booksFound
+                    }, () => console.log(this.state.booksFound)))
             }
         }, 500)
 
+    }
+    onChangeQuery = (book, shelf) => {
+        BooksAPI
+            .update(book, shelf)
+            .then(result => {
+                const updatedBook = Object.assign(book, {shelf: shelf})
+                this.setState(prevState => ({
+                    booksFound: Object.assign(prevState.booksFound, prevState.booksFound.map(b => b.id === book.id
+                        ? updatedBook
+                        : b))
+                }))
+            })
     }
     render() {
         return (
@@ -37,7 +57,10 @@ class SearchBooks extends Component {
                 <SearchBooksBar
                     query={this.state.query}
                     onChangeQuery={this.handleChangeInQuery}/>
-                <SearchBooksResults books={this.state.booksFound}/>
+                <SearchBooksResults
+                    books={this.state.booksFound}
+                    shelfTypes={this.state.shelfTypes}
+                    onShelveBook={this.onChangeQuery}/>
             </div>
         )
     }
