@@ -17,10 +17,8 @@ class SearchBooks extends Component {
                 'none': 'None'
             }
         }
-        this.timeout = null
     }
     componentWillUnmount() {
-        clearTimeout(this.timeout)
     }
     handleChangeInQuery = (query) => {
         this.setState({
@@ -28,8 +26,6 @@ class SearchBooks extends Component {
         }, () => this.searchForBooks())
     }
     searchForBooks = () => {
-        clearTimeout(this.timeout)
-        this.timeout = setTimeout(() => {
             if (this.state.query) {
                 BooksAPI
                     .search(this.state.query, 20)
@@ -47,7 +43,6 @@ class SearchBooks extends Component {
                     })
                     .catch(error => console.log(error))
             }
-        }, 500)
 
     }
     handleChangeBookShelve = (book, shelf) => {
