@@ -13,7 +13,7 @@ const SearchBooksResults = ({books, shelfTypes, onChangeBookShelf}) => (
                             authors={book.authors}
                             image={book.imageLinks.smallThumbnail}
                             shelfOptions={shelfTypes}
-                            onChangeBookShelf={shelf => onShelveBook(book, shelf)}/>
+                            onChangeBookShelf={shelf => onChangeBookShelf(book, shelf)}/>
                     </li>
                 ))}
         </ol>
