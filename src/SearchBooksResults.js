@@ -1,7 +1,7 @@
 import React from 'react'
 import Book from './Book'
 
-const SearchBooksResults = ({books, shelfTypes, onShelveBook}) => (
+const SearchBooksResults = ({books, shelfTypes, onChangeBookShelf}) => (
     <div className="search-books-results">
         <ol className="books-grid">
         {books && books.map(book => (
