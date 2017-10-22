@@ -3,11 +3,13 @@ import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import BookShelf from './BookShelf'
 import {groupItems} from './Utils'
+import Spinner from './Spinner'
 
 const ListBooks = ({books, shelfTypes, onChangeBookShelf}) => {
-    let shelves = {}
+    let shelves = {}, loading = true
     if (books.length > 0) {
         shelves = groupItems(books, 'shelf')
+        loading = false
     }
 
     return (
@@ -16,6 +18,7 @@ const ListBooks = ({books, shelfTypes, onChangeBookShelf}) => {
                 <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
+                <Spinner type={'GridLoader'} loading={loading}/>
                 {Object
                     .keys(shelves)
                     .map(shelf => (<BookShelf
