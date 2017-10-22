@@ -41,26 +41,10 @@ class SearchBooks extends Component {
         return  booksFound.map(bookFound => {
             for(const shelveBook of shelvedBooks){
                 if(shelveBook.id===bookFound.id)
-                bookFound.shelf = shelveBook.shelf
+                    bookFound.shelf = shelveBook.shelf
             }
             return bookFound
         })
-    }
-    handleChangeBookShelve = (book, shelf) => {
-        BooksAPI
-            .update(book, shelf)
-            .then(result => {
-                this.setState(prevState => ({
-                    booksFound: prevState
-                        .booksFound
-                        .map(b => b.id === book.id
-                            ? {
-                                ...book,
-                                shelf: shelf
-                            }
-                            : b)
-                }))
-            })
     }
     render() {
         return (
@@ -71,7 +55,7 @@ class SearchBooks extends Component {
                 <SearchBooksResults
                     books={this.state.booksFound}
                     shelfTypes={this.props.shelfTypes}
-                    onChangeBookShelf={this.handleChangeBookShelve}/>
+                    onChangeBookShelf={this.props.onChangeBookShelf}/>
                 <div className="search-books-error">
                     {this.state.error}
                 </div>
