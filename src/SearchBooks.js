@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import * as BooksAPI from './BooksAPI'
 import SearchBooksBar from './SearchBooksBar'
 import SearchBooksResults from './SearchBooksResults'
+import PropTypes from 'prop-types'
 
 class SearchBooks extends Component {
     constructor(props) {
@@ -69,5 +70,11 @@ class SearchBooks extends Component {
         )
     }
 }
-
+SearchBooks.propTypes = {
+    books: PropTypes
+        .arrayOf(PropTypes.object)
+        .isRequired,
+    shelfTypes: PropTypes.object.isRequired,
+    onChangeBookShelf: PropTypes.func.isRequired
+}
 export default SearchBooks
