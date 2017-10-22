@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {DebounceInput} from 'react-debounce-input'
+import PropTypes from 'prop-types'
 
 const SearchBooksBar = ({query, onChangeQuery}) => (
     <div className="search-books-bar">
@@ -19,5 +20,10 @@ const SearchBooksBar = ({query, onChangeQuery}) => (
         </div>
     </div>
 )
+
+SearchBooksBar.propTypes = {
+    query: PropTypes.string,
+    onChangeQuery: PropTypes.func.isRequired
+}
 
 export default SearchBooksBar
