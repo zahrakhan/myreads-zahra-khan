@@ -45,7 +45,7 @@ class BooksApp extends React.Component {
             ...book,
             shelf
           })
-          .filter(book => book.shelf !== 'none')
+          .filter(savedBook => savedBook.shelf !== 'none')
       }))
     }).catch(error => console.log('Error updating book status', error))
   }
