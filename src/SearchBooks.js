@@ -12,6 +12,12 @@ class SearchBooks extends Component {
             error: ''
         }
     }
+    componentWillReceiveProps(props){
+        if(this.state.booksFound.length>0){
+            const booksFound = this.mapShelvedBooksInSearchResult(this.state.booksFound, props.books)
+            this.setState({booksFound, error: ''})
+        }
+    }
     handleChangeInQuery = (query) => {
         this.setState({
             query: query.trim()
