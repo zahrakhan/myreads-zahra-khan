@@ -8,7 +8,7 @@ const Spinner = ({
 }) => {
     const Loader = Halogen[type], color = '#4DAF7C'
 
-    /* Moving spinner style to App.css messes the alignement */
+    /* Moving spinner style to App.css messes the alignement, got css help from Halogen examples */
     const style = loading
         ? {
             display: '-webkit-flex',
