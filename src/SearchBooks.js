@@ -9,16 +9,8 @@ class SearchBooks extends Component {
         this.state = {
             query: '',
             booksFound: [],
-            error: '',
-            shelfTypes: {
-                'currentlyReading': 'Currently Reading',
-                'wantToRead': 'Want to Read',
-                'read': 'Read',
-                'none': 'None'
-            }
+            error: ''
         }
-    }
-    componentWillUnmount() {
     }
     handleChangeInQuery = (query) => {
         this.setState({
@@ -30,9 +22,10 @@ class SearchBooks extends Component {
                 BooksAPI
                     .search(this.state.query, 20)
                     .then(booksFound => {
-                        if (booksFound && !booksFound.error)
+                        if (booksFound && !booksFound.error){
+                            booksFound = this.mapShelvedBooksInSearchResult(booksFound, this.props.books)
                             this.setState({booksFound, error: ''})
-                        else
+                        }else
                             this.setState((prevState) => ({
                                 booksFound: booksFound || [],
                                 error: prevState.query
@@ -43,7 +36,15 @@ class SearchBooks extends Component {
                     })
                     .catch(error => console.log(error))
             }
-
+    }
+    mapShelvedBooksInSearchResult = (booksFound, shelvedBooks) => {
+        return  booksFound.map(bookFound => {
+            for(const shelveBook of shelvedBooks){
+                if(shelveBook.id===bookFound.id)
+                bookFound.shelf = shelveBook.shelf
+            }
+            return bookFound
+        })
     }
     handleChangeBookShelve = (book, shelf) => {
         BooksAPI
@@ -69,7 +70,7 @@ class SearchBooks extends Component {
                     onChangeQuery={this.handleChangeInQuery}/>
                 <SearchBooksResults
                     books={this.state.booksFound}
-                    shelfTypes={this.state.shelfTypes}
+                    shelfTypes={this.props.shelfTypes}
                     onChangeBookShelf={this.handleChangeBookShelve}/>
                 <div className="search-books-error">
                     {this.state.error}
