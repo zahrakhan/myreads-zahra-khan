@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import SearchBooksBar from './SearchBooksBar'
 import SearchBooksResults from './SearchBooksResults'
-import PropTypes from 'prop-types'
+import Spinner from './Spinner'
 
 class SearchBooks extends Component {
     constructor(props) {
@@ -10,11 +11,12 @@ class SearchBooks extends Component {
         this.state = {
             query: '',
             booksFound: [],
-            error: ''
+            error: '',
+            loading: false
         }
     }
-    componentWillReceiveProps(props){
-        if(this.state.booksFound.length>0){
+    componentWillReceiveProps(props) {
+        if (this.state.booksFound.length > 0) {
             const booksFound = this.mapShelvedBooksInSearchResult(this.state.booksFound, props.books)
             this.setState({booksFound, error: ''})
         }
@@ -25,29 +27,31 @@ class SearchBooks extends Component {
         }, () => this.searchForBooks())
     }
     searchForBooks = () => {
-            if (this.state.query) {
-                BooksAPI
-                    .search(this.state.query, 20)
-                    .then(booksFound => {
-                        if (booksFound && !booksFound.error){
-                            booksFound = this.mapShelvedBooksInSearchResult(booksFound, this.props.books)
-                            this.setState({booksFound, error: ''})
-                        }else
-                            this.setState((prevState) => ({
-                                booksFound: [],
-                                error: prevState.query
-                                    ? `Your search - ${prevState.query} - did not match any book results`
-                                    : ''
-                            }))
+        if (this.state.query) {
+            this.setState({booksFound: [], error:'', loading: true})
+            BooksAPI
+                .search(this.state.query, 20)
+                .then(booksFound => {
+                    if (booksFound && !booksFound.error) {
+                        booksFound = this.mapShelvedBooksInSearchResult(booksFound, this.props.books)
+                        this.setState({booksFound, error: '', loading: false})
+                    } else
+                        this.setState((prevState) => ({
+                            booksFound: [],
+                            error: prevState.query
+                                ? `Your search - ${prevState.query} - did not match any book results`
+                                : '',
+                            loading: false
+                        }))
 
-                    })
-                    .catch(error => console.log(error))
-            }
+                })
+                .catch(error => console.log(error))
+        }
     }
     mapShelvedBooksInSearchResult = (booksFound, shelvedBooks) => {
-        return  booksFound.map(bookFound => {
-            for(const shelveBook of shelvedBooks){
-                if(shelveBook.id===bookFound.id)
+        return booksFound.map(bookFound => {
+            for (const shelveBook of shelvedBooks) {
+                if (shelveBook.id === bookFound.id)
                     bookFound.shelf = shelveBook.shelf
             }
             return bookFound
@@ -59,6 +63,7 @@ class SearchBooks extends Component {
                 <SearchBooksBar
                     query={this.state.query}
                     onChangeQuery={this.handleChangeInQuery}/>
+                <Spinner type={'BeatLoader'} loading={this.state.loading} message={'Searching'}/>
                 <SearchBooksResults
                     books={this.state.booksFound}
                     shelfTypes={this.props.shelfTypes}
