@@ -35,9 +35,17 @@ class BooksApp extends React.Component {
   handleChangeInBookShelf = (book, shelf) => {
     BooksAPI.update({
       id: book.id
-    }, shelf)
-    .then(() => this.loadMyReads())
-    .catch(error => console.log('Error updating book status', error))
+    }, shelf).then(() => {
+      this.setState(prevState => ({
+        books: prevState
+          .books
+          .filter(savedBook => savedBook.id !== book.id)
+          .concat({
+            ...book,
+            shelf
+          })
+      }))
+    }).catch(error => console.log('Error updating book status', error))
   }
 
   render() {
