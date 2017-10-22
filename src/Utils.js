@@ -8,5 +8,6 @@ function groupBy(items, getItemGroupOnValue) {
     return groups
 }
 export function groupItems(items = [], groupOn = '') {
-    return Promise.resolve(groupBy(items, (item => item[groupOn])))
+    return groupBy(items, (item => item[groupOn]))
+    //Promise.resolve(groupBy(items, (item => item[groupOn])))
 }
