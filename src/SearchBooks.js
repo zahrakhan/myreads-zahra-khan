@@ -15,6 +15,7 @@ class SearchBooks extends Component {
             loading: false
         }
     }
+    /* After book shelf state update make sure correct state is reflected  */
     componentWillReceiveProps(props) {
         if (this.state.booksFound.length > 0) {
             const booksFound = this.mapShelvedBooksInSearchResult(this.state.booksFound, props.books)
@@ -28,10 +29,11 @@ class SearchBooks extends Component {
     }
     searchForBooks = () => {
         if (this.state.query) {
-            this.setState({booksFound: [], error:'', loading: true})
+            this.setState({booksFound: [], error: '', loading: true})
             BooksAPI
                 .search(this.state.query, 20)
                 .then(booksFound => {
+                    /* Set state if there is no error otherwise show error */
                     if (booksFound && !booksFound.error) {
                         booksFound = this.mapShelvedBooksInSearchResult(booksFound, this.props.books)
                         this.setState({booksFound, error: '', loading: false})
@@ -48,6 +50,7 @@ class SearchBooks extends Component {
                 .catch(error => console.log(error))
         }
     }
+    /* Map shelved books in search result to show correct state of books in result */
     mapShelvedBooksInSearchResult = (booksFound, shelvedBooks) => {
         return booksFound.map(bookFound => {
             for (const shelveBook of shelvedBooks) {
@@ -63,7 +66,10 @@ class SearchBooks extends Component {
                 <SearchBooksBar
                     query={this.state.query}
                     onChangeQuery={this.handleChangeInQuery}/>
-                <Spinner type={'BeatLoader'} loading={this.state.loading} message={'Searching'}/>
+                <Spinner
+                    type={'BeatLoader'}
+                    loading={this.state.loading}
+                    message={'Searching'}/>
                 <SearchBooksResults
                     books={this.state.booksFound}
                     shelfTypes={this.props.shelfTypes}

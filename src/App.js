@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
     this.loadMyReads()
   }
 
+  /* Fetch all shelf books */
   loadMyReads = () => {
     BooksAPI
       .getAll()
@@ -31,7 +32,7 @@ class BooksApp extends React.Component {
       .catch(error => console.log('Error loading shelved books', error))
 
   }
-
+  /* Move book to a shelf, making sure books with no shelf are removed from the book list */
   handleChangeInBookShelf = (book, shelf) => {
     BooksAPI.update({
       id: book.id

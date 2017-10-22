@@ -7,6 +7,8 @@ import Spinner from './Spinner'
 
 const ListBooks = ({books, shelfTypes, onChangeBookShelf}) => {
     let shelves = {}, loading = true
+
+    /* Group books by shelf */
     if (books.length > 0) {
         shelves = groupItems(books, 'shelf')
         loading = false
