@@ -34,7 +34,7 @@ class SearchBooks extends Component {
                             this.setState({booksFound, error: ''})
                         }else
                             this.setState((prevState) => ({
-                                booksFound: booksFound || [],
+                                booksFound: [],
                                 error: prevState.query
                                     ? `Your search - ${prevState.query} - did not match any book results`
                                     : ''
